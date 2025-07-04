@@ -709,6 +709,25 @@ npm run build
 ls -la public/
 ```
 
+#### 5. JavaScript Errors
+```bash
+# Common JavaScript issues and fixes:
+
+# Error: "can't access property 'addEventListener', document.getElementById(...) is null"
+# Solution: Add null checks before accessing DOM elements
+```
+
+```javascript
+// Bad - will cause errors if element doesn't exist
+document.getElementById('my-element').addEventListener('click', handler);
+
+// Good - safe with null check
+const element = document.getElementById('my-element');
+if (element) {
+    element.addEventListener('click', handler);
+}
+```
+
 ### Debug Mode
 ```bash
 # Enable debug mode temporarily

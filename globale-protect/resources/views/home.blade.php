@@ -151,20 +151,25 @@
                         document.addEventListener('DOMContentLoaded', function() {
                             const langToggle = document.getElementById('language-toggle');
                             const langMenu = document.getElementById('language-menu');
-                            langToggle.addEventListener('click', function(e) {
-                                e.stopPropagation();
-                                langMenu.classList.toggle('hidden');
-                                langToggle.setAttribute('aria-expanded', langMenu.classList.contains('hidden') ? 'false' : 'true');
-                            });
-                            document.addEventListener('click', function(e) {
-                                if (!langMenu.classList.contains('hidden')) {
-                                    langMenu.classList.add('hidden');
-                                    langToggle.setAttribute('aria-expanded', 'false');
-                                }
-                            });
-                            langMenu.addEventListener('click', function(e) {
-                                e.stopPropagation();
-                            });
+
+                            if (langToggle && langMenu) {
+                                langToggle.addEventListener('click', function(e) {
+                                    e.stopPropagation();
+                                    langMenu.classList.toggle('hidden');
+                                    langToggle.setAttribute('aria-expanded', langMenu.classList.contains('hidden') ? 'false' : 'true');
+                                });
+
+                                document.addEventListener('click', function(e) {
+                                    if (!langMenu.classList.contains('hidden')) {
+                                        langMenu.classList.add('hidden');
+                                        langToggle.setAttribute('aria-expanded', 'false');
+                                    }
+                                });
+
+                                langMenu.addEventListener('click', function(e) {
+                                    e.stopPropagation();
+                                });
+                            }
                         });
                     </script>
                 </div>
@@ -1066,19 +1071,25 @@
         // Page Loader
         window.addEventListener('load', function() {
             const loader = document.getElementById('page-loader');
-            setTimeout(() => {
-                loader.style.opacity = '0';
+            if (loader) {
                 setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 300);
-            }, 800);
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 300);
+                }, 800);
+            }
         });
 
         // Mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        });
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
 
         // Dark mode functionality
         function initTheme() {
@@ -1108,21 +1119,35 @@
         initTheme();
 
         // Theme toggle event listeners
-        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-        document.getElementById('mobile-theme-toggle').addEventListener('click', toggleTheme);
+        const themeToggle = document.getElementById('theme-toggle');
+        const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
+        if (mobileThemeToggle) {
+            mobileThemeToggle.addEventListener('click', toggleTheme);
+        }
 
         // Language switching
         function switchLanguage(locale) {
             window.location.href = `{{ url('/lang') }}/${locale}`;
         }
 
-        document.getElementById('language-selector').addEventListener('change', function() {
-            switchLanguage(this.value);
-        });
+        const languageSelector = document.getElementById('language-selector');
+        const mobileLanguageSelector = document.getElementById('mobile-language-selector');
 
-        document.getElementById('mobile-language-selector').addEventListener('change', function() {
-            switchLanguage(this.value);
-        });
+        if (languageSelector) {
+            languageSelector.addEventListener('change', function() {
+                switchLanguage(this.value);
+            });
+        }
+
+        if (mobileLanguageSelector) {
+            mobileLanguageSelector.addEventListener('change', function() {
+                switchLanguage(this.value);
+            });
+        }
 
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1142,7 +1167,7 @@
             const mobileMenu = document.getElementById('mobile-menu');
             const menuButton = document.getElementById('mobile-menu-button');
 
-            if (!mobileMenu.contains(event.target) && !menuButton.contains(event.target)) {
+            if (mobileMenu && menuButton && !mobileMenu.contains(event.target) && !menuButton.contains(event.target)) {
                 mobileMenu.classList.add('hidden');
             }
         });
@@ -1166,8 +1191,15 @@
                 window.addEventListener('resize', () => this.updateSlidesToShow());
 
                 // Navigation buttons
-                document.getElementById('testimonials-prev').addEventListener('click', () => this.prevSlide());
-                document.getElementById('testimonials-next').addEventListener('click', () => this.nextSlide());
+                const prevBtn = document.getElementById('testimonials-prev');
+                const nextBtn = document.getElementById('testimonials-next');
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => this.prevSlide());
+                }
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => this.nextSlide());
+                }
 
                 // Dot navigation
                 this.dots.forEach((dot, index) => {

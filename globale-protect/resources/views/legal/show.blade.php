@@ -199,20 +199,22 @@
     </footer>
 
     <script>
-        // Language switcher
-        document.getElementById('language-toggle').addEventListener('click', function() {
-            document.getElementById('language-menu').classList.toggle('hidden');
-        });
+        // Language switcher with null checks
+        const languageToggle = document.getElementById('language-toggle');
+        const languageMenu = document.getElementById('language-menu');
 
-        // Close language menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const toggle = document.getElementById('language-toggle');
-            const menu = document.getElementById('language-menu');
+        if (languageToggle && languageMenu) {
+            languageToggle.addEventListener('click', function() {
+                languageMenu.classList.toggle('hidden');
+            });
 
-            if (!toggle.contains(event.target) && !menu.contains(event.target)) {
-                menu.classList.add('hidden');
-            }
-        });
+            // Close language menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!languageToggle.contains(event.target) && !languageMenu.contains(event.target)) {
+                    languageMenu.classList.add('hidden');
+                }
+            });
+        }
     </script>
 </body>
 </html>
