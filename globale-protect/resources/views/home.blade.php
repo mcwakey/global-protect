@@ -867,11 +867,11 @@
                     <div class="flex flex-wrap justify-center gap-4">
                         <a href="#contact" class="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 hover:shadow-lg hover:scale-105 transition-all duration-300">
                             <i class="fas fa-phone mr-2"></i>
-                            Get Started Today
+                            {{ __('messages.get_started_today') }}
                         </a>
                         <a href="#services" class="inline-flex items-center px-6 py-3 border border-border text-foreground font-semibold rounded-full hover:bg-secondary hover:text-secondary-foreground transition-all duration-300">
                             <i class="fas fa-arrow-right mr-2"></i>
-                            Learn More
+                            {{ __('messages.learn_more') }}
                         </a>
                     </div>
                 </div>
@@ -881,7 +881,7 @@
                     <!-- Company Info -->
                     <div class="space-y-6">
                         <h4 class="text-lg font-bold text-foreground relative">
-                            Company
+                            {{ __('messages.company') }}
                             <div class="absolute -bottom-2 left-0 w-12 h-0.5 bg-primary"></div>
                         </h4>
                         <div class="space-y-4">
@@ -890,8 +890,8 @@
                                     <i class="fas fa-map-marker-alt text-muted-foreground text-sm"></i>
                                 </div>
                                 <div>
-                                    <p class="text-muted-foreground text-sm">Head Office</p>
-                                    <p class="text-foreground">Emergency Services Blvd</p>
+                                    <p class="text-muted-foreground text-sm">{{ __('messages.head_office') }}</p>
+                                    <p class="text-foreground">{{ __('messages.office_address') }}</p>
                                 </div>
                             </div>
                             <div class="flex items-start space-x-3 group">
@@ -899,8 +899,8 @@
                                     <i class="fas fa-envelope text-muted-foreground text-sm"></i>
                                 </div>
                                 <div>
-                                    <p class="text-muted-foreground text-sm">Email</p>
-                                    <p class="text-foreground">contact@globaleprotect.com</p>
+                                    <p class="text-muted-foreground text-sm">{{ __('messages.email') }}</p>
+                                    <p class="text-foreground">{{ __('messages.company_email') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -961,8 +961,8 @@
                             </a>
                         </div>
                         <div class="text-muted-foreground text-sm">
-                            <p>Stay connected for emergency updates</p>
-                            <p>and industry insights</p>
+                            <p>{{ __('messages.stay_connected') }}</p>
+                            <p>{{ __('messages.emergency_updates') }}</p>
                         </div>
                     </div>
 
@@ -1000,9 +1000,9 @@
                                 © {{ date('Y') }} Globale Protect. {{ __('messages.copyright') }}
                             </p>
                             <div class="flex space-x-4 text-sm">
-                                <a href="#" class="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a>
-                                <a href="#" class="text-muted-foreground hover:text-primary transition-colors">Terms of Service</a>
-                                <a href="#" class="text-muted-foreground hover:text-primary transition-colors">Cookies</a>
+                                <a href="#" class="text-muted-foreground hover:text-primary transition-colors">{{ __('messages.privacy_policy') }}</a>
+                                <a href="#" class="text-muted-foreground hover:text-primary transition-colors">{{ __('messages.terms_of_service') }}</a>
+                                <a href="#" class="text-muted-foreground hover:text-primary transition-colors">{{ __('messages.cookies') }}</a>
                             </div>
                         </div>
                         <a href="{{ route('login') }}" class="inline-flex items-center px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-lg transition-all duration-300 group text-sm border border-border">
@@ -1024,8 +1024,8 @@
         <div class="absolute bottom-16 right-0 bg-card border border-border rounded-lg p-3 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap pointer-events-none">
             <div class="text-center">
                 <p class="text-sm font-medium text-foreground">{{ __('messages.emergency_hotline') }}</p>
-                <p class="text-lg font-bold text-red-600">911</p>
-                <p class="text-xs text-muted-foreground">24/7 Available</p>
+                <p class="text-lg font-bold text-red-600">{{ __('messages.emergency_number') }}</p>
+                <p class="text-xs text-muted-foreground">{{ __('messages.available_24_7') }}</p>
             </div>
             <!-- Arrow -->
             <div class="absolute bottom-0 right-4 transform translate-y-1/2 rotate-45 w-2 h-2 bg-card border-r border-b border-border"></div>

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\FeatureController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\ManualController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -46,6 +47,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('settings', [SettingController::class, 'update'])->name('settings.update');
         Route::delete('settings/logo', [SettingController::class, 'deleteLogo'])->name('settings.delete-logo');
         Route::delete('settings/favicon', [SettingController::class, 'deleteFavicon'])->name('settings.delete-favicon');
+
+        // User Manual route
+        Route::get('manual', [ManualController::class, 'index'])->name('manual.index');
     });
 
     // Original dashboard and profile routes

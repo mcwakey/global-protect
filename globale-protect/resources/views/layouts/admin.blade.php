@@ -155,6 +155,14 @@
                             <i class="fas fa-cog mr-3"></i>
                             {{ __('messages.settings') }}
                         </a>
+
+                        <!-- User Manual -->
+                        <div class="border-t border-border my-2"></div>
+                        <a href="{{ route('admin.manual.index') }}"
+                           class="flex items-center px-4 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.manual.*') ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-background' }}">
+                            <i class="fas fa-book mr-3"></i>
+                            {{ __('messages.user_manual') }}
+                        </a>
                     </nav>
                 </div>
             </div>
