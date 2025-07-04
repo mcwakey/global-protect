@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\LegalPageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\FeatureController;
@@ -10,11 +11,15 @@ use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ManualController;
+use App\Http\Controllers\Admin\LegalPageController as AdminLegalPageController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+// Legal pages
+Route::get('/legal/{type}', [LegalPageController::class, 'show'])->name('legal.show');
 
 // Language switching
 Route::get('/lang/{locale}', function ($locale) {
@@ -22,7 +27,7 @@ Route::get('/lang/{locale}', function ($locale) {
         session(['locale' => $locale]);
     }
     return redirect()->back();
-})->name('lang.switch');
+})->name('language.switch');
 
 // Admin routes (protected by auth middleware)
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -35,6 +40,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('features', FeatureController::class);
         Route::resource('testimonials', TestimonialController::class);
         Route::resource('contact-messages', ContactMessageController::class)->only(['index', 'show', 'destroy']);
+        Route::resource('legal-pages', AdminLegalPageController::class);
 
         // Additional contact message routes
         Route::patch('contact-messages/{contactMessage}/mark-read', [ContactMessageController::class, 'markAsRead'])

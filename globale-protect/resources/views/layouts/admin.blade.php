@@ -150,6 +150,11 @@
                             <i class="fas fa-envelope mr-3"></i>
                             {{ __('messages.contact_messages') }}
                         </a>
+                        <a href="{{ route('admin.legal-pages.index') }}"
+                           class="flex items-center px-4 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.legal-pages.*') ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-background' }}">
+                            <i class="fas fa-file-contract mr-3"></i>
+                            {{ __('messages.legal_pages') }}
+                        </a>
                         <a href="{{ route('admin.settings.index') }}"
                            class="flex items-center px-4 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.settings.*') ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-background' }}">
                             <i class="fas fa-cog mr-3"></i>

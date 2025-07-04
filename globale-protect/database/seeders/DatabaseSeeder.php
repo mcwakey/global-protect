@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             SectionSeeder::class,
             FeatureSeeder::class,
             TestimonialSeeder::class,
+            LegalPageSeeder::class,
         ]);
     }
 }

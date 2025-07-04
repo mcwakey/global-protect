@@ -1000,9 +1000,9 @@
                                 © {{ date('Y') }} Globale Protect. {{ __('messages.copyright') }}
                             </p>
                             <div class="flex space-x-4 text-sm">
-                                <a href="#" class="text-muted-foreground hover:text-primary transition-colors">{{ __('messages.privacy_policy') }}</a>
-                                <a href="#" class="text-muted-foreground hover:text-primary transition-colors">{{ __('messages.terms_of_service') }}</a>
-                                <a href="#" class="text-muted-foreground hover:text-primary transition-colors">{{ __('messages.cookies') }}</a>
+                                @foreach(\App\Models\LegalPage::where('is_active', true)->get() as $legalPage)
+                                <a href="{{ route('legal.show', $legalPage->type) }}" class="text-muted-foreground hover:text-primary transition-colors">{{ $legalPage->title }}</a>
+                                @endforeach
                             </div>
                         </div>
                         <a href="{{ route('login') }}" class="inline-flex items-center px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-lg transition-all duration-300 group text-sm border border-border">
