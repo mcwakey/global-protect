@@ -104,40 +104,69 @@
                     </div>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="text-foreground hover:text-primary transition-all duration-200 relative group">
+                    <a href="#home" class="text-muted-foreground hover:text-primary transition-all duration-200 relative group">
                         {{ __('messages.home') }}
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full"></span>
                     </a>
-                    <a href="#about" class="text-foreground hover:text-primary transition-all duration-200 relative group">
+                    <a href="#about" class="text-muted-foreground hover:text-primary transition-all duration-200 relative group">
                         {{ __('messages.about') }}
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full"></span>
                     </a>
-                    <a href="#services" class="text-foreground hover:text-primary transition-all duration-200 relative group">
+                    <a href="#services" class="text-muted-foreground hover:text-primary transition-all duration-200 relative group">
                         {{ __('messages.services') }}
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full"></span>
                     </a>
-                    <a href="#testimonials" class="text-foreground hover:text-primary transition-all duration-200 relative group">
+                    <a href="#testimonials" class="text-muted-foreground hover:text-primary transition-all duration-200 relative group">
                         {{ __('messages.testimonials') }}
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full"></span>
                     </a>
-                    <a href="#contact" class="text-foreground hover:text-primary transition-all duration-200 relative group">
+                    <a href="#contact" class="text-muted-foreground hover:text-primary transition-all duration-200 relative group">
                         {{ __('messages.contact') }}
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full"></span>
                     </a>
 
-                    <!-- Language Switcher -->
-                    <div class="relative">
-                        <select id="language-selector" class="bg-secondary text-secondary-foreground rounded-md px-3 py-1 text-sm border border-border hover:border-primary transition-colors">
-                            <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>🇺🇸 EN</option>
-                            <option value="fr" {{ app()->getLocale() == 'fr' ? 'selected' : '' }}>🇫🇷 FR</option>
-                        </select>
-                    </div>
-
                     <!-- Dark Mode Toggle -->
                     <button id="theme-toggle" class="p-2 rounded-md hover:bg-secondary transition-all duration-200 hover:scale-110">
-                        <i class="fas fa-moon text-foreground dark:hidden"></i>
-                        <i class="fas fa-sun text-foreground hidden dark:block"></i>
+                        <i class="fas fa-moon text-muted-foreground dark:hidden"></i>
+                        <i class="fas fa-sun text-muted-foreground hidden dark:block"></i>
                     </button>
+
+                    <!-- Language Switcher -->
+                    <div class="relative">
+                        <button id="language-toggle" type="button" aria-haspopup="true" aria-expanded="false" class="flex items-center space-x-2 text-muted-foreground hover:text-primary transition-colors focus:outline-none">
+                            <i class="fas fa-globe"></i>
+                            <span>{{ app()->getLocale() == 'fr' ? 'FR' : 'EN' }}</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div id="language-menu" class="hidden absolute right-0 mt-2 w-32 bg-card border border-border rounded-md shadow-lg z-50">
+                            <a href="{{ route('language.switch', 'en') }}" class="block px-4 py-2 text-sm text-foreground hover:bg-muted rounded-t-md">
+                                🇺🇸 English
+                            </a>
+                            <a href="{{ route('language.switch', 'fr') }}" class="block px-4 py-2 text-sm text-foreground hover:bg-muted rounded-b-md">
+                                🇫🇷 Français
+                            </a>
+                        </div>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const langToggle = document.getElementById('language-toggle');
+                            const langMenu = document.getElementById('language-menu');
+                            langToggle.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                langMenu.classList.toggle('hidden');
+                                langToggle.setAttribute('aria-expanded', langMenu.classList.contains('hidden') ? 'false' : 'true');
+                            });
+                            document.addEventListener('click', function(e) {
+                                if (!langMenu.classList.contains('hidden')) {
+                                    langMenu.classList.add('hidden');
+                                    langToggle.setAttribute('aria-expanded', 'false');
+                                }
+                            });
+                            langMenu.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                            });
+                        });
+                    </script>
                 </div>
                 <div class="md:hidden flex items-center space-x-2">
                     <!-- Mobile Dark Mode Toggle -->
