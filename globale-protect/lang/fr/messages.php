@@ -24,7 +24,7 @@ return [
     'excellence' => 'Excellence',
 
     // Services Section
-    'services_title' => 'Nos Solutions Numériques',
+    'services_title' => 'Nos Solutions Numériques ',
     'services_subtitle' => 'Technologie de pointe conçue pour améliorer les capacités de réponse d\'urgence et sauver des vies.',
 
     // Features
