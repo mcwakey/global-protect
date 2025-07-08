@@ -23,6 +23,18 @@ class Section extends Model
         'is_active' => 'boolean'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($section) {
+            // Automatically set key based on type if not already set
+            if (empty($section->key) && !empty($section->type)) {
+                $section->key = $section->type;
+            }
+        });
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
