@@ -244,16 +244,23 @@
                 <!-- Left Side - Text Content -->
                 <div class="text-center lg:text-left">
                     <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-                        {{ __('messages.hero_title') }}
+                        {{ $sections['hero']->title }}
                     </h1>
                     <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed">
-                        {{ __('messages.hero_content') }}
+                        {{ $sections['hero']->content }}
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        @if(isset($sections['hero']->data['cta_link']))
+                        <a href="{{ $sections['hero']->data['cta_link'] }}"
+                           class="bg-primary-foreground text-primary px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground/90 transition-all duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                            {{ $sections['hero']->data['cta_text'] ?? __('messages.learn_more') }}
+                        </a>
+                        @else
                         <a href="#about"
                            class="bg-primary-foreground text-primary px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground/90 transition-all duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                             {{ __('messages.learn_more') }}
                         </a>
+                        @endif
                         <a href="#contact"
                            class="border border-primary-foreground text-primary-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground/10 transition-all duration-300 inline-block">
                             {{ __('messages.contact') }}
@@ -425,10 +432,10 @@
                     <i class="fas fa-info-circle text-primary text-2xl"></i>
                 </div>
                 <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
-                    {{ __('messages.about_title') }}
+                    {{ $sections['about']->title }}
                 </h2>
                 <p class="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-                    {{ __('messages.about_content') }}
+                    {{ $sections['about']->content }}
                 </p>
             </div>
 
@@ -537,28 +544,12 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <h3 class="text-lg sm:text-xl font-semibold text-card-foreground mb-2 leading-tight">
-                                @switch($index)
-                                    @case(0) {{ __('messages.qwick_rescue') }} @break
-                                    @case(1) {{ __('messages.qr_medical_info') }} @break
-                                    @case(2) {{ __('messages.emergency_comm') }} @break
-                                    @case(3) {{ __('messages.ai_dispatch') }} @break
-                                    @case(4) {{ __('messages.mobile_command') }} @break
-                                    @case(5) {{ __('messages.analytics_dashboard') }} @break
-                                    @default {{ $feature->title }}
-                                @endswitch
+                                {{ $feature->title }}
                             </h3>
                         </div>
                     </div>
                     <p class="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">
-                        @switch($index)
-                            @case(0) {{ __('messages.qwick_rescue_desc') }} @break
-                            @case(1) {{ __('messages.qr_medical_desc') }} @break
-                            @case(2) {{ __('messages.emergency_comm_desc') }} @break
-                            @case(3) {{ __('messages.ai_dispatch_desc') }} @break
-                            @case(4) {{ __('messages.mobile_command_desc') }} @break
-                            @case(5) {{ __('messages.analytics_desc') }} @break
-                            @default {{ $feature->description }}
-                        @endswitch
+                        {{ $feature->description }}
                     </p>
                     @if($feature->link)
                     <a href="{{ $feature->link }}" class="text-primary hover:text-primary/80 font-medium text-sm sm:text-base transition-colors duration-200 inline-flex items-center group/link">

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section Debug</title>
+</head>
+<body>
+    <h1>Section Debug Test</h1>
+
+    <?php
+    // Include Laravel bootstrap
+    require_once __DIR__ . '/vendor/autoload.php';
+    $app = require_once __DIR__ . '/bootstrap/app.php';
+    $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+
+    // Get sections
+    $sections = \App\Models\Section::active()->ordered()->get()->keyBy('key');
+    ?>
+
+    <h2>Sections Data:</h2>
+    <ul>
+    <?php foreach ($sections as $key => $section): ?>
+        <li>
+            <strong><?= $key ?></strong>: <?= htmlspecialchars($section->title) ?>
+            <?php if (isset($sections[$key])): ?>
+                <span style="color: green;">✓ isset($sections['<?= $key ?>']) = TRUE</span>
+            <?php else: ?>
+                <span style="color: red;">✗ isset($sections['<?= $key ?>']) = FALSE</span>
+            <?php endif; ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+
+    <h2>Section Content Tests:</h2>
+
+    <h3>Hero Section:</h3>
+    <?php if(isset($sections['hero'])): ?>
+        <div style="border: 2px solid green; padding: 10px; margin: 10px 0;">
+            <p><strong>Hero section IS available</strong></p>
+            <p>Title: <?= htmlspecialchars($sections['hero']->title) ?></p>
+            <p>Content: <?= htmlspecialchars(substr($sections['hero']->content, 0, 100)) ?>...</p>
+        </div>
+    <?php else: ?>
+        <div style="border: 2px solid red; padding: 10px; margin: 10px 0;">
+            <p><strong>Hero section is NOT available</strong></p>
+        </div>
+    <?php endif; ?>
+
+    <h3>About Section:</h3>
+    <?php if(isset($sections['about'])): ?>
+        <div style="border: 2px solid green; padding: 10px; margin: 10px 0;">
+            <p><strong>About section IS available</strong></p>
+            <p>Title: <?= htmlspecialchars($sections['about']->title) ?></p>
+            <p>Content: <?= htmlspecialchars(substr($sections['about']->content, 0, 100)) ?>...</p>
+        </div>
+    <?php else: ?>
+        <div style="border: 2px solid red; padding: 10px; margin: 10px 0;">
+            <p><strong>About section is NOT available</strong></p>
+        </div>
+    <?php endif; ?>
+
+    <h3>Contact Section:</h3>
+    <?php if(isset($sections['contact'])): ?>
+        <div style="border: 2px solid green; padding: 10px; margin: 10px 0;">
+            <p><strong>Contact section IS available</strong></p>
+            <p>Title: <?= htmlspecialchars($sections['contact']->title) ?></p>
+            <p>Content: <?= htmlspecialchars(substr($sections['contact']->content, 0, 100)) ?>...</p>
+        </div>
+    <?php else: ?>
+        <div style="border: 2px solid red; padding: 10px; margin: 10px 0;">
+            <p><strong>Contact section is NOT available</strong></p>
+        </div>
+    <?php endif; ?>
+</body>
+</html>

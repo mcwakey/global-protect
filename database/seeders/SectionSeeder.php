@@ -16,6 +16,8 @@ class SectionSeeder extends Seeder
         $sections = [
             [
                 'key' => 'hero',
+                'name' => 'Hero Section',
+                'type' => 'hero',
                 'title' => 'Digital Solutions for Emergency & Rescue Services',
                 'content' => 'Globale Protect provides cutting-edge digital solutions designed to enhance emergency response capabilities and save lives through innovative technology.',
                 'data' => [
@@ -29,6 +31,8 @@ class SectionSeeder extends Seeder
             ],
             [
                 'key' => 'about',
+                'name' => 'About Section',
+                'type' => 'about',
                 'title' => 'About Globale Protect',
                 'content' => 'We are a leading provider of digital solutions for emergency and rescue services. Our mission is to leverage technology to improve response times, enhance communication, and ultimately save more lives during critical situations.',
                 'data' => [
@@ -40,7 +44,21 @@ class SectionSeeder extends Seeder
                 'sort_order' => 2
             ],
             [
+                'key' => 'services',
+                'name' => 'Services Section',
+                'type' => 'services',
+                'title' => 'Our Digital Solutions',
+                'content' => 'Comprehensive emergency response technologies designed to save lives and improve emergency service efficiency.',
+                'data' => [
+                    'subtitle' => 'Innovative tools for modern emergency response teams'
+                ],
+                'is_active' => true,
+                'sort_order' => 3
+            ],
+            [
                 'key' => 'contact',
+                'name' => 'Contact Section',
+                'type' => 'contact',
                 'title' => 'Get in Touch',
                 'content' => 'Ready to learn more about our digital solutions? Contact us today to discuss how we can help improve your emergency response capabilities.',
                 'data' => [

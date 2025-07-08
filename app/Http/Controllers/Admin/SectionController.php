@@ -33,12 +33,14 @@ class SectionController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
+            'type' => 'required|string|max:255|unique:sections,type',
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
             'sort_order' => 'integer|min:0',
             'is_active' => 'boolean',
             'image' => 'nullable|image|max:2048',
+        ], [
+            'type.unique' => 'A section with this type already exists. Each section type can only be created once.',
         ]);
 
         $data = $request->all();
@@ -77,12 +79,14 @@ class SectionController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
+            'type' => 'required|string|max:255|unique:sections,type,' . $section->id,
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
             'sort_order' => 'integer|min:0',
             'is_active' => 'boolean',
             'image' => 'nullable|image|max:2048',
+        ], [
+            'type.unique' => 'A section with this type already exists. Each section type can only be created once.',
         ]);
 
         $data = $request->all();

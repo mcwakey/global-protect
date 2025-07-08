@@ -182,24 +182,26 @@
                         {{ __('messages.cancel') }}
                     </a>
                 </div>
-                @if(isset($testimonial))
-                <div class="mt-4 sm:mt-0">
-                    <form action="{{ route('admin.testimonials.destroy', $testimonial) }}"
-                          method="POST"
-                          class="inline-block"
-                          onsubmit="return confirm('{{ __('messages.confirm_delete') }}')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                                class="inline-flex items-center px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
-                            <i class="fas fa-trash mr-2"></i>
-                            {{ __('messages.delete') }}
-                        </button>
-                    </form>
-                </div>
-                @endif
             </div>
         </form>
+
+        @if(isset($testimonial))
+        <!-- Delete Form (separate from main form) -->
+        <div class="mt-6 pt-6 border-t border-border flex justify-end">
+            <form action="{{ route('admin.testimonials.destroy', $testimonial) }}"
+                  method="POST"
+                  class="inline-block"
+                  onsubmit="return confirm('{{ __('messages.confirm_delete') }}')">
+                @csrf
+                @method('DELETE')
+                <button type="submit"
+                        class="inline-flex items-center px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                    <i class="fas fa-trash mr-2"></i>
+                    {{ __('messages.delete') }}
+                </button>
+            </form>
+        </div>
+        @endif
     </div>
 </div>
 @endsection
