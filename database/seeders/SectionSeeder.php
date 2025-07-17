@@ -21,10 +21,36 @@ class SectionSeeder extends Seeder
                 'title' => 'Digital Solutions for Emergency & Rescue Services',
                 'content' => 'Globale Protect provides cutting-edge digital solutions designed to enhance emergency response capabilities and save lives through innovative technology.',
                 'data' => [
-                    'subtitle' => 'Protecting Lives Through Innovation',
-                    'cta_text' => 'Learn More',
-                    'cta_link' => '#about',
-                    'background_image' => '/images/hero-bg.jpg'
+                    'slides' => [
+                        [
+                            'title' => 'Digital Solutions for Emergency & Rescue Services',
+                            'subtitle' => 'Protecting Lives Through Innovation',
+                            'content' => 'Globale Protect provides cutting-edge digital solutions designed to enhance emergency response capabilities and save lives through innovative technology.',
+                            'cta_text' => 'Learn More',
+                            'cta_link' => '#about',
+                            'image' => ''
+                        ],
+                        [
+                            'title' => 'Emergency Response Excellence',
+                            'subtitle' => 'Rapid Response Technology',
+                            'content' => 'Advanced emergency management systems that reduce response times and coordinate rescue operations seamlessly.',
+                            'cta_text' => 'Our Solutions',
+                            'cta_link' => '#services',
+                            'image' => ''
+                        ],
+                        [
+                            'title' => 'Cutting-Edge Technology',
+                            'subtitle' => 'AI-Powered Solutions',
+                            'content' => 'AI-powered dispatch systems, real-time communication platforms, and advanced analytics for optimal emergency management.',
+                            'cta_text' => 'View Features',
+                            'cta_link' => '#services',
+                            'image' => ''
+                        ]
+                    ],
+                    'settings' => [
+                        'autoplay' => true,
+                        'autoplay_interval' => 5
+                    ]
                 ],
                 'is_active' => true,
                 'sort_order' => 1
@@ -73,7 +99,10 @@ class SectionSeeder extends Seeder
         ];
 
         foreach ($sections as $section) {
-            Section::create($section);
+            Section::updateOrCreate(
+                ['key' => $section['key']],
+                $section
+            );
         }
     }
 }

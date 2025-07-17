@@ -201,119 +201,283 @@
                 </div>
             </div>
         </div>
-    </nav>    <!-- Hero Section -->
+    </nav>    <!-- Hero Slider Section -->
     @if(isset($sections['hero']))
-    <section id="home" class="relative bg-gradient-to-r from-primary via-primary to-primary/80 text-primary-foreground overflow-hidden">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-10">
-            <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <pattern id="hero-grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
-                    </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#hero-grid)"/>
-            </svg>
-        </div>
+    <section id="home" class="relative overflow-hidden">
+        <!-- Hero Slider -->
+        <div class="hero-slider">
+            <div class="hero-slides flex transition-transform duration-700 ease-in-out">
+                @php
+                    $heroSlides = $sections['hero']->data['slides'] ?? [];
+                    $autoplay = $sections['hero']->data['settings']['autoplay'] ?? true;
+                    $autoplayInterval = $sections['hero']->data['settings']['autoplay_interval'] ?? 5;
+                @endphp
 
-        <!-- Emergency Services Illustration -->
-        <div class="absolute top-1/4 right-10 w-32 h-32 lg:w-48 lg:h-48 opacity-20 hidden lg:block">
-            <svg viewBox="0 0 200 200" class="w-full h-full">
-                <!-- Ambulance -->
-                <rect x="40" y="120" width="120" height="50" fill="white" rx="8"/>
-                <rect x="50" y="100" width="100" height="30" fill="white" rx="5"/>
-                <!-- Wheels -->
-                <circle cx="65" cy="180" r="12" fill="white"/>
-                <circle cx="135" cy="180" r="12" fill="white"/>
-                <!-- Emergency Lights -->
-                <rect x="70" y="90" width="20" height="10" fill="#ff4444" rx="3"/>
-                <rect x="110" y="90" width="20" height="10" fill="#4444ff" rx="3"/>
-                <!-- Medical Cross -->
-                <rect x="85" y="130" width="30" height="8" fill="#ff4444"/>
-                <rect x="96" y="119" width="8" height="30" fill="#ff4444"/>
-                <!-- Radio Wave -->
-                <path d="M 170 60 Q 180 70 170 80" stroke="white" stroke-width="2" fill="none"/>
-                <path d="M 175 65 Q 183 73 175 81" stroke="white" stroke-width="2" fill="none"/>
-                <path d="M 180 70 Q 186 76 180 82" stroke="white" stroke-width="2" fill="none"/>
-            </svg>
-        </div>
-
-        <!-- Hero Content -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative">
-            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                <!-- Left Side - Text Content -->
-                <div class="text-center lg:text-left">
-                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-                        {{ $sections['hero']->title }}
-                    </h1>
-                    <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed">
-                        {{ $sections['hero']->content }}
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        @if(isset($sections['hero']->data['cta_link']))
-                        <a href="{{ $sections['hero']->data['cta_link'] }}"
-                           class="bg-primary-foreground text-primary px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground/90 transition-all duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                            {{ $sections['hero']->data['cta_text'] ?? __('messages.learn_more') }}
-                        </a>
+                @if(!empty($heroSlides))
+                    @foreach($heroSlides as $index => $slide)
+                    <div class="hero-slide flex-shrink-0 w-full bg-gradient-to-r from-primary via-primary to-primary/80 text-primary-foreground relative">
+                        <!-- Background Image -->
+                        @if(!empty($slide['image']))
+                        <div class="absolute inset-0 z-0">
+                            <img src="{{ Storage::url($slide['image']) }}"
+                                 alt="Slide {{ $index + 1 }}"
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-primary/70"></div>
+                        </div>
                         @else
-                        <a href="#about"
-                           class="bg-primary-foreground text-primary px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground/90 transition-all duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                            {{ __('messages.learn_more') }}
-                        </a>
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-10">
+                            <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <pattern id="hero-grid-{{ $index }}" width="10" height="10" patternUnits="userSpaceOnUse">
+                                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#hero-grid-{{ $index }})"/>
+                            </svg>
+                        </div>
                         @endif
-                        <a href="#contact"
-                           class="border border-primary-foreground text-primary-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground/10 transition-all duration-300 inline-block">
-                            {{ __('messages.contact') }}
-                        </a>
+
+                        <!-- Hero Content -->
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative z-10">
+                            <div class="text-center lg:text-left">
+                                @if(!empty($slide['subtitle']))
+                                <div class="inline-block bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground px-3 py-1 rounded-full text-sm font-medium mb-4 border border-primary-foreground/20">
+                                    {{ $slide['subtitle'] }}
+                                </div>
+                                @endif
+
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+                                    {{ $slide['title'] ?: $sections['hero']->title }}
+                                </h1>
+
+                                <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed max-w-2xl">
+                                    {{ $slide['content'] ?: $sections['hero']->content }}
+                                </p>
+
+                                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                                    @if(!empty($slide['cta_text']) && !empty($slide['cta_link']))
+                                    <a href="{{ $slide['cta_link'] }}"
+                                       class="bg-primary-foreground text-primary px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground/90 transition-all duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                        {{ $slide['cta_text'] }}
+                                    </a>
+                                    @else
+                                    <a href="#about"
+                                       class="bg-primary-foreground text-primary px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground/90 transition-all duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                        {{ __('messages.learn_more') }}
+                                    </a>
+                                    @endif
+                                    <a href="#contact"
+                                       class="border border-primary-foreground text-primary-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground/10 transition-all duration-300 inline-block">
+                                        {{ __('messages.contact') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                @else
+                    <!-- Fallback slide if no data -->
+                    <div class="hero-slide flex-shrink-0 w-full bg-gradient-to-r from-primary via-primary to-primary/80 text-primary-foreground relative">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-10">
+                            <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <pattern id="hero-grid-fallback" width="10" height="10" patternUnits="userSpaceOnUse">
+                                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#hero-grid-fallback)"/>
+                            </svg>
+                        </div>
+
+                        <!-- Hero Content -->
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative z-10">
+                            <div class="text-center lg:text-left">
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+                                    {{ $sections['hero']->title }}
+                                </h1>
+                                <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed">
+                                    {{ $sections['hero']->content }}
+                                </p>
+                                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                                    <a href="#about"
+                                       class="bg-primary-foreground text-primary px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground/90 transition-all duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                        {{ __('messages.learn_more') }}
+                                    </a>
+                                    <a href="#contact"
+                                       class="border border-primary-foreground text-primary-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground/10 transition-all duration-300 inline-block">
+                                        {{ __('messages.contact') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                                   
+
+                <!-- Slide 2 - Emergency Response Focus -->
+                <div class="hero-slide flex-shrink-0 w-full bg-gradient-to-r from-red-600 via-red-500 to-orange-500 text-white relative">
+                    <!-- Background Pattern -->
+                    <div class="absolute inset-0 opacity-10">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern id="hero-grid-2" width="15" height="15" patternUnits="userSpaceOnUse">
+                                    <circle cx="7.5" cy="7.5" r="1" fill="white"/>
+                                </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#hero-grid-2)"/>
+                        </svg>
+                    </div>
+
+                    <!-- Emergency Icon -->
+                    <div class="absolute top-1/4 right-10 w-32 h-32 lg:w-48 lg:h-48 opacity-20 hidden lg:block">
+                        <div class="w-full h-full flex items-center justify-center">
+                            <i class="fas fa-ambulance text-white text-8xl animate-pulse"></i>
+                        </div>
+                    </div>
+
+                    <!-- Hero Content -->
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative">
+                        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                            <!-- Left Side - Text Content -->
+                            <div class="text-center lg:text-left">
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+                                    Emergency Response Excellence
+                                </h1>
+                                <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed">
+                                    Advanced emergency management systems that reduce response times and coordinate rescue operations seamlessly.
+                                </p>
+                                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                                    <a href="#services"
+                                       class="bg-white text-red-600 px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                        Our Solutions
+                                    </a>
+                                    <a href="#contact"
+                                       class="border border-white text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-all duration-300 inline-block">
+                                        Contact Us
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Right Side - Emergency Stats -->
+                            <div class="relative">
+                                <div class="bg-white/10 rounded-2xl p-8 backdrop-blur-sm">
+                                    <h3 class="text-2xl font-bold mb-6 text-center">Emergency Statistics</h3>
+                                    <div class="grid grid-cols-1 gap-4">
+                                        <div class="bg-white/20 rounded-lg p-4 text-center">
+                                            <div class="text-3xl font-bold">< 3 min</div>
+                                            <div class="text-sm opacity-90">Average Response Time</div>
+                                        </div>
+                                        <div class="bg-white/20 rounded-lg p-4 text-center">
+                                            <div class="text-3xl font-bold">99.8%</div>
+                                            <div class="text-sm opacity-90">System Uptime</div>
+                                        </div>
+                                        <div class="bg-white/20 rounded-lg p-4 text-center">
+                                            <div class="text-3xl font-bold">24/7</div>
+                                            <div class="text-sm opacity-90">Emergency Support</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Right Side - Hero Image/Illustration or Uploaded Image -->
-                <div class="relative flex flex-col items-center">
-                    @if($sections['hero']->image)
-                        <img src="{{ Storage::url($sections['hero']->image) }}" alt="{{ $sections['hero']->title }}" class="w-full max-w-md rounded-2xl shadow-2xl mb-6 object-cover">
-                    @else
-                        <div class="relative bg-primary-foreground/10 rounded-2xl p-8 backdrop-blur-sm">
-                            <!-- Emergency Dashboard Mockup -->
-                            <div class="bg-primary-foreground rounded-xl p-6 shadow-2xl">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                                    </div>
-                                    <span class="text-primary text-sm font-medium">Emergency Dashboard</span>
-                                </div>
-                                <div class="space-y-4">
-                                    <div class="flex items-center space-x-3 bg-primary/5 p-3 rounded-lg">
-                                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                        <span class="text-primary text-sm">Active Emergency Units: 12</span>
-                                    </div>
-                                    <div class="flex items-center space-x-3 bg-primary/5 p-3 rounded-lg">
-                                        <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                                        <span class="text-primary text-sm">Response Time: 3.2 min</span>
-                                    </div>
-                                    <div class="flex items-center space-x-3 bg-primary/5 p-3 rounded-lg">
-                                        <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                                        <span class="text-primary text-sm">Incidents Resolved: 47</span>
-                                    </div>
+                <!-- Slide 3 - Technology Innovation -->
+                <div class="hero-slide flex-shrink-0 w-full bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 text-white relative">
+                    <!-- Background Pattern -->
+                    <div class="absolute inset-0 opacity-10">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern id="hero-grid-3" width="20" height="20" patternUnits="userSpaceOnUse">
+                                    <path d="M10 0 L20 10 L10 20 L0 10 Z" fill="none" stroke="white" stroke-width="0.5"/>
+                                </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#hero-grid-3)"/>
+                        </svg>
+                    </div>
+
+                    <!-- Technology Icon -->
+                    <div class="absolute top-1/4 right-10 w-32 h-32 lg:w-48 lg:h-48 opacity-20 hidden lg:block">
+                        <div class="w-full h-full flex items-center justify-center">
+                            <i class="fas fa-satellite-dish text-white text-8xl animate-pulse"></i>
+                        </div>
+                    </div>
+
+                    <!-- Hero Content -->
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative">
+                        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                            <!-- Left Side - Text Content -->
+                            <div class="text-center lg:text-left">
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+                                    Cutting-Edge Technology
+                                </h1>
+                                <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed">
+                                    AI-powered dispatch systems, real-time communication platforms, and advanced analytics for optimal emergency management.
+                                </p>
+                                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                                    <a href="#about"
+                                       class="bg-white text-blue-600 px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                        Learn More
+                                    </a>
+                                    <a href="#services"
+                                       class="border border-white text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-all duration-300 inline-block">
+                                        View Features
+                                    </a>
                                 </div>
                             </div>
 
-                            <!-- Floating Elements -->
-                            <div class="absolute -top-4 -right-4 w-16 h-16 bg-primary-foreground/20 rounded-full flex items-center justify-center animate-bounce">
-                                <i class="fas fa-heartbeat text-primary-foreground text-xl"></i>
-                            </div>
-                            <div class="absolute -bottom-4 -left-4 w-12 h-12 bg-primary-foreground/20 rounded-full flex items-center justify-center animate-pulse">
-                                <i class="fas fa-shield-alt text-primary-foreground"></i>
+                            <!-- Right Side - Tech Features -->
+                            <div class="relative">
+                                <div class="bg-white/10 rounded-2xl p-8 backdrop-blur-sm">
+                                    <h3 class="text-2xl font-bold mb-6 text-center">Tech Features</h3>
+                                    <div class="space-y-4">
+                                        <div class="flex items-center space-x-3 bg-white/20 p-3 rounded-lg">
+                                            <i class="fas fa-robot text-2xl"></i>
+                                            <span>AI-Powered Dispatch</span>
+                                        </div>
+                                        <div class="flex items-center space-x-3 bg-white/20 p-3 rounded-lg">
+                                            <i class="fas fa-satellite text-2xl"></i>
+                                            <span>Real-time Communication</span>
+                                        </div>
+                                        <div class="flex items-center space-x-3 bg-white/20 p-3 rounded-lg">
+                                            <i class="fas fa-chart-line text-2xl"></i>
+                                            <span>Advanced Analytics</span>
+                                        </div>
+                                        <div class="flex items-center space-x-3 bg-white/20 p-3 rounded-lg">
+                                            <i class="fas fa-mobile-alt text-2xl"></i>
+                                            <span>Mobile Command Center</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    @endif
+                    </div>
                 </div>
+            </div>
+
+            <!-- Navigation Arrows -->
+            <button id="hero-prev" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm z-10">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button id="hero-next" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm z-10">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <!-- Dots Indicator -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-10">
+                @if(!empty($heroSlides))
+                    @foreach($heroSlides as $index => $slide)
+                    <button class="hero-dot w-3 h-3 rounded-full {{ $index === 0 ? 'bg-white' : 'bg-white/30' }} hover:bg-white transition-all duration-300" data-slide="{{ $index }}"></button>
+                    @endforeach
+                @else
+                    <button class="hero-dot w-3 h-3 rounded-full bg-white hover:bg-white transition-all duration-300" data-slide="0"></button>
+                @endif
             </div>
         </div>
     </section>
-    @else
+@else
     <section id="home" class="relative bg-gradient-to-r from-primary via-primary to-primary/80 text-primary-foreground overflow-hidden">
         <!-- Background Pattern -->
         <div class="absolute inset-0 opacity-10">
@@ -413,7 +577,7 @@
             </div>
         </div>
     </section>
-    @endif
+@endif
 
     <!-- About Section -->
     @if(isset($sections['about']))
@@ -1292,6 +1456,118 @@
         }
         @endif
 
+        // Hero Slider Functionality
+        const heroSlider = {
+            currentSlide: 0,
+            totalSlides: {{ !empty($heroSlides) ? count($heroSlides) : 3 }},
+            track: null,
+            dots: null,
+            autoplayInterval: null,
+            autoplayEnabled: {{ json_encode($autoplay ?? true) }},
+            autoplayDelay: {{ ($autoplayInterval ?? 5) * 1000 }},
+
+            init() {
+                this.track = document.querySelector('.hero-slides');
+                this.dots = document.querySelectorAll('.hero-dot');
+
+                if (!this.track) return;
+
+                // Navigation buttons
+                const prevBtn = document.getElementById('hero-prev');
+                const nextBtn = document.getElementById('hero-next');
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => this.prevSlide());
+                }
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => this.nextSlide());
+                }
+
+                // Dot navigation
+                this.dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => this.goToSlide(index));
+                });
+
+                // Auto-play (only if enabled)
+                if (this.autoplayEnabled) {
+                    this.startAutoplay();
+
+                    // Pause autoplay on hover
+                    const heroSection = document.querySelector('.hero-slider');
+                    if (heroSection) {
+                        heroSection.addEventListener('mouseenter', () => this.stopAutoplay());
+                        heroSection.addEventListener('mouseleave', () => this.startAutoplay());
+                    }
+                }
+
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        this.prevSlide();
+                    } else if (e.key === 'ArrowRight') {
+                        this.nextSlide();
+                    }
+                });
+
+                this.updateSlider();
+            },
+
+            updateSlider() {
+                if (!this.track) return;
+
+                // Calculate the exact translate percentage
+                // Since container is 300% wide and each slide is 33.333% of that
+                // To move one slide, we need to translate by 33.333% of the container
+                const translateX = -(this.currentSlide * 33.333);
+                this.track.style.transform = `translateX(${translateX}%)`;
+
+                // Update dots
+                this.dots.forEach((dot, index) => {
+                    if (index === this.currentSlide) {
+                        dot.classList.add('bg-white');
+                        dot.classList.remove('bg-white/30', 'bg-white/50');
+                    } else {
+                        dot.classList.remove('bg-white');
+                        dot.classList.add('bg-white/30');
+                    }
+                });
+            },
+
+            nextSlide() {
+                this.currentSlide = this.currentSlide >= this.totalSlides - 1 ? 0 : this.currentSlide + 1;
+                this.updateSlider();
+            },
+
+            prevSlide() {
+                this.currentSlide = this.currentSlide <= 0 ? this.totalSlides - 1 : this.currentSlide - 1;
+                this.updateSlider();
+            },
+
+            goToSlide(index) {
+                this.currentSlide = index;
+                this.updateSlider();
+            },
+
+            startAutoplay() {
+                this.stopAutoplay();
+                this.autoplayInterval = setInterval(() => this.nextSlide(), this.autoplayDelay);
+            },
+
+            stopAutoplay() {
+                if (this.autoplayInterval) {
+                    clearInterval(this.autoplayInterval);
+                    this.autoplayInterval = null;
+                }
+            }
+        };
+
+        // Initialize hero slider when DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => heroSlider.init());
+        } else {
+            heroSlider.init();
+        }
+
         // Add scroll animations
         const observerOptions = {
             threshold: 0.1,
@@ -1311,11 +1587,12 @@
             observer.observe(section);
         });
 
-        // Parallax effect for hero section
+        // Parallax effect for non-slider sections
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const hero = document.querySelector('#home');
-            if (hero) {
+            // Disable parallax for hero slider
+            if (hero && !hero.querySelector('.hero-slider')) {
                 const speed = scrolled * 0.5;
                 hero.style.transform = `translateY(${speed}px)`;
             }
@@ -1348,6 +1625,40 @@
 
         .animate-fade-in-up {
             animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Hero Slider Styles */
+        .hero-slider {
+            position: relative;
+            overflow: hidden;
+            height: 100vh;
+            min-height: 600px;
+        }
+
+        .hero-slides {
+            display: flex;
+            width: 300%; /* 3 slides */
+            height: 100%;
+            transition: transform 0.7s ease-in-out;
+        }
+
+        .hero-slide {
+            flex: 0 0 calc(100% / 3); /* Each slide takes exactly 1/3 of the 300% container */
+            width: calc(100% / 3);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            min-width: 0; /* Prevent flex item from growing beyond its basis */
+            position: relative;
+        }
+
+        .hero-dot {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .hero-dot:hover {
+            transform: scale(1.2);
         }
 
         .testimonial-slide {
@@ -1384,6 +1695,29 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: hsl(var(--primary) / 0.8);
+        }
+
+        /* Navigation button hover effects */
+        #hero-prev, #hero-next {
+            transition: all 0.3s ease;
+        }
+
+        #hero-prev:hover, #hero-next:hover {
+            transform: scale(1.1);
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-slider {
+                height: 100vh;
+                min-height: 500px;
+            }
+
+            #hero-prev, #hero-next {
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </body>

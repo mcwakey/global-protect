@@ -88,7 +88,7 @@
                     @enderror
                 </div>
 
-                <div>
+                <div id="regular-content">
                     <label for="content" class="block text-sm font-medium text-foreground mb-2">
                         {{ __('messages.content') }}
                     </label>
@@ -100,6 +100,145 @@
                     @error('content')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                     @enderror
+                </div>
+
+                <!-- Hero Slider Content -->
+                <div id="hero-slider-content" style="display: none;">
+                    <h3 class="text-lg font-medium text-foreground mb-4">Hero Slider Slides</h3>
+
+                    @php
+                        $heroSlides = [];
+                        if (isset($section) && $section->data && isset($section->data['slides'])) {
+                            $heroSlides = $section->data['slides'];
+                        }
+                        // Ensure we have at least 3 slides
+                        while (count($heroSlides) < 3) {
+                            $heroSlides[] = [
+                                'title' => '',
+                                'subtitle' => '',
+                                'content' => '',
+                                'cta_text' => '',
+                                'cta_link' => '',
+                                'image' => ''
+                            ];
+                        }
+                    @endphp
+
+                    @for($i = 0; $i < 3; $i++)
+                        <div class="border border-border rounded-lg p-4 mb-4">
+                            <h4 class="text-md font-medium text-foreground mb-3">Slide {{ $i + 1 }}</h4>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="slide_{{ $i }}_title" class="block text-sm font-medium text-foreground mb-2">
+                                        Title
+                                    </label>
+                                    <input type="text"
+                                           id="slide_{{ $i }}_title"
+                                           name="slides[{{ $i }}][title]"
+                                           value="{{ old('slides.' . $i . '.title', $heroSlides[$i]['title'] ?? '') }}"
+                                           class="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                </div>
+
+                                <div>
+                                    <label for="slide_{{ $i }}_subtitle" class="block text-sm font-medium text-foreground mb-2">
+                                        Subtitle
+                                    </label>
+                                    <input type="text"
+                                           id="slide_{{ $i }}_subtitle"
+                                           name="slides[{{ $i }}][subtitle]"
+                                           value="{{ old('slides.' . $i . '.subtitle', $heroSlides[$i]['subtitle'] ?? '') }}"
+                                           class="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <label for="slide_{{ $i }}_content" class="block text-sm font-medium text-foreground mb-2">
+                                    Content
+                                </label>
+                                <textarea id="slide_{{ $i }}_content"
+                                          name="slides[{{ $i }}][content]"
+                                          rows="3"
+                                          class="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">{{ old('slides.' . $i . '.content', $heroSlides[$i]['content'] ?? '') }}</textarea>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <label for="slide_{{ $i }}_cta_text" class="block text-sm font-medium text-foreground mb-2">
+                                        CTA Button Text
+                                    </label>
+                                    <input type="text"
+                                           id="slide_{{ $i }}_cta_text"
+                                           name="slides[{{ $i }}][cta_text]"
+                                           value="{{ old('slides.' . $i . '.cta_text', $heroSlides[$i]['cta_text'] ?? '') }}"
+                                           class="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                </div>
+
+                                <div>
+                                    <label for="slide_{{ $i }}_cta_link" class="block text-sm font-medium text-foreground mb-2">
+                                        CTA Link
+                                    </label>
+                                    <input type="url"
+                                           id="slide_{{ $i }}_cta_link"
+                                           name="slides[{{ $i }}][cta_link]"
+                                           value="{{ old('slides.' . $i . '.cta_link', $heroSlides[$i]['cta_link'] ?? '') }}"
+                                           class="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <label for="slide_{{ $i }}_image" class="block text-sm font-medium text-foreground mb-2">
+                                    Background Image
+                                </label>
+                                <input type="file"
+                                       id="slide_{{ $i }}_image"
+                                       name="slides[{{ $i }}][image]"
+                                       accept="image/*"
+                                       class="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+
+                                @if(isset($heroSlides[$i]['image']) && $heroSlides[$i]['image'])
+                                    <div class="mt-2">
+                                        <img src="{{ Storage::url($heroSlides[$i]['image']) }}"
+                                             alt="Slide {{ $i + 1 }}"
+                                             class="w-32 h-20 object-cover rounded-lg">
+                                        <input type="hidden" name="slides[{{ $i }}][existing_image]" value="{{ $heroSlides[$i]['image'] }}">
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endfor
+
+                    <!-- Auto-play Settings -->
+                    <div class="border border-border rounded-lg p-4">
+                        <h4 class="text-md font-medium text-foreground mb-3">Slider Settings</h4>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center">
+                                <input type="checkbox"
+                                       id="autoplay"
+                                       name="settings[autoplay]"
+                                       value="1"
+                                       {{ old('settings.autoplay', isset($section) && $section->data && isset($section->data['settings']['autoplay']) ? $section->data['settings']['autoplay'] : true) ? 'checked' : '' }}
+                                       class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                                <label for="autoplay" class="ml-2 block text-sm text-foreground">
+                                    Enable Auto-play
+                                </label>
+                            </div>
+
+                            <div>
+                                <label for="autoplay_interval" class="block text-sm font-medium text-foreground mb-2">
+                                    Auto-play Interval (seconds)
+                                </label>
+                                <input type="number"
+                                       id="autoplay_interval"
+                                       name="settings[autoplay_interval]"
+                                       value="{{ old('settings.autoplay_interval', isset($section) && $section->data && isset($section->data['settings']['autoplay_interval']) ? $section->data['settings']['autoplay_interval'] : 5) }}"
+                                       min="1"
+                                       max="60"
+                                       class="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -190,4 +329,30 @@
         @endif
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const typeSelect = document.getElementById('type');
+    const regularContent = document.getElementById('regular-content');
+    const heroSliderContent = document.getElementById('hero-slider-content');
+
+    function toggleContentFields() {
+        const selectedType = typeSelect.value;
+
+        if (selectedType === 'hero') {
+            regularContent.style.display = 'none';
+            heroSliderContent.style.display = 'block';
+        } else {
+            regularContent.style.display = 'block';
+            heroSliderContent.style.display = 'none';
+        }
+    }
+
+    // Initial toggle based on current value
+    toggleContentFields();
+
+    // Toggle on change
+    typeSelect.addEventListener('change', toggleContentFields);
+});
+</script>
 @endsection

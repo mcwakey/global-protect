@@ -50,6 +50,38 @@ class SectionController extends Controller
             $data['image'] = $request->file('image')->store('sections', 'public');
         }
 
+        // Handle hero slider data
+        if ($request->type === 'hero' && $request->has('slides')) {
+            $slides = [];
+            foreach ($request->slides as $index => $slide) {
+                $slideData = [
+                    'title' => $slide['title'] ?? '',
+                    'subtitle' => $slide['subtitle'] ?? '',
+                    'content' => $slide['content'] ?? '',
+                    'cta_text' => $slide['cta_text'] ?? '',
+                    'cta_link' => $slide['cta_link'] ?? '',
+                    'image' => $slide['existing_image'] ?? ''
+                ];
+
+                // Handle slide image upload
+                if ($request->hasFile("slides.{$index}.image")) {
+                    $slideData['image'] = $request->file("slides.{$index}.image")->store('hero-slides', 'public');
+                }
+
+                $slides[] = $slideData;
+            }
+
+            $settings = [
+                'autoplay' => $request->has('settings.autoplay'),
+                'autoplay_interval' => $request->input('settings.autoplay_interval', 5)
+            ];
+
+            $data['data'] = [
+                'slides' => $slides,
+                'settings' => $settings
+            ];
+        }
+
         Section::create($data);
 
         return redirect()->route('admin.sections.index')
@@ -97,6 +129,42 @@ class SectionController extends Controller
                 Storage::disk('public')->delete($section->image);
             }
             $data['image'] = $request->file('image')->store('sections', 'public');
+        }
+
+        // Handle hero slider data
+        if ($request->type === 'hero' && $request->has('slides')) {
+            $slides = [];
+            foreach ($request->slides as $index => $slide) {
+                $slideData = [
+                    'title' => $slide['title'] ?? '',
+                    'subtitle' => $slide['subtitle'] ?? '',
+                    'content' => $slide['content'] ?? '',
+                    'cta_text' => $slide['cta_text'] ?? '',
+                    'cta_link' => $slide['cta_link'] ?? '',
+                    'image' => $slide['existing_image'] ?? ''
+                ];
+
+                // Handle slide image upload
+                if ($request->hasFile("slides.{$index}.image")) {
+                    // Delete old slide image if exists
+                    if (!empty($slide['existing_image'])) {
+                        Storage::disk('public')->delete($slide['existing_image']);
+                    }
+                    $slideData['image'] = $request->file("slides.{$index}.image")->store('hero-slides', 'public');
+                }
+
+                $slides[] = $slideData;
+            }
+
+            $settings = [
+                'autoplay' => $request->has('settings.autoplay'),
+                'autoplay_interval' => $request->input('settings.autoplay_interval', 5)
+            ];
+
+            $data['data'] = [
+                'slides' => $slides,
+                'settings' => $settings
+            ];
         }
 
         $section->update($data);
