@@ -268,43 +268,47 @@
                     </div>
                 </div>
 
-                <!-- Right Side - Hero Image/Illustration -->
-                <div class="relative">
-                    <div class="relative bg-primary-foreground/10 rounded-2xl p-8 backdrop-blur-sm">
-                        <!-- Emergency Dashboard Mockup -->
-                        <div class="bg-primary-foreground rounded-xl p-6 shadow-2xl">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                <!-- Right Side - Hero Image/Illustration or Uploaded Image -->
+                <div class="relative flex flex-col items-center">
+                    @if($sections['hero']->image)
+                        <img src="{{ Storage::url($sections['hero']->image) }}" alt="{{ $sections['hero']->title }}" class="w-full max-w-md rounded-2xl shadow-2xl mb-6 object-cover">
+                    @else
+                        <div class="relative bg-primary-foreground/10 rounded-2xl p-8 backdrop-blur-sm">
+                            <!-- Emergency Dashboard Mockup -->
+                            <div class="bg-primary-foreground rounded-xl p-6 shadow-2xl">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                    </div>
+                                    <span class="text-primary text-sm font-medium">Emergency Dashboard</span>
                                 </div>
-                                <span class="text-primary text-sm font-medium">Emergency Dashboard</span>
+                                <div class="space-y-4">
+                                    <div class="flex items-center space-x-3 bg-primary/5 p-3 rounded-lg">
+                                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                        <span class="text-primary text-sm">Active Emergency Units: 12</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3 bg-primary/5 p-3 rounded-lg">
+                                        <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                                        <span class="text-primary text-sm">Response Time: 3.2 min</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3 bg-primary/5 p-3 rounded-lg">
+                                        <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                                        <span class="text-primary text-sm">Incidents Resolved: 47</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="space-y-4">
-                                <div class="flex items-center space-x-3 bg-primary/5 p-3 rounded-lg">
-                                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                    <span class="text-primary text-sm">Active Emergency Units: 12</span>
-                                </div>
-                                <div class="flex items-center space-x-3 bg-primary/5 p-3 rounded-lg">
-                                    <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                                    <span class="text-primary text-sm">Response Time: 3.2 min</span>
-                                </div>
-                                <div class="flex items-center space-x-3 bg-primary/5 p-3 rounded-lg">
-                                    <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                                    <span class="text-primary text-sm">Incidents Resolved: 47</span>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Floating Elements -->
-                        <div class="absolute -top-4 -right-4 w-16 h-16 bg-primary-foreground/20 rounded-full flex items-center justify-center animate-bounce">
-                            <i class="fas fa-heartbeat text-primary-foreground text-xl"></i>
+                            <!-- Floating Elements -->
+                            <div class="absolute -top-4 -right-4 w-16 h-16 bg-primary-foreground/20 rounded-full flex items-center justify-center animate-bounce">
+                                <i class="fas fa-heartbeat text-primary-foreground text-xl"></i>
+                            </div>
+                            <div class="absolute -bottom-4 -left-4 w-12 h-12 bg-primary-foreground/20 rounded-full flex items-center justify-center animate-pulse">
+                                <i class="fas fa-shield-alt text-primary-foreground"></i>
+                            </div>
                         </div>
-                        <div class="absolute -bottom-4 -left-4 w-12 h-12 bg-primary-foreground/20 rounded-full flex items-center justify-center animate-pulse">
-                            <i class="fas fa-shield-alt text-primary-foreground"></i>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -428,43 +432,48 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="text-center mb-8 sm:mb-12 lg:mb-16">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-6">
-                    <i class="fas fa-info-circle text-primary text-2xl"></i>
-                </div>
                 <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
                     {{ $sections['about']->title }}
                 </h2>
-                <p class="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-                    {{ $sections['about']->content }}
-                </p>
             </div>
-
-            @if(isset($sections['about']->data['values']))
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 mt-8 sm:mt-12">
-                @foreach($sections['about']->data['values'] as $index => $value)
-                <div class="text-center group">
-                    <div class="bg-primary/10 dark:bg-primary/20 rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:bg-primary/20 dark:group-hover:bg-primary/30 transition-all duration-300 group-hover:scale-110 shadow-lg">
-                        @switch($index)
-                            @case(0) <i class="fas fa-lightbulb text-primary text-lg sm:text-xl"></i> @break
-                            @case(1) <i class="fas fa-shield-alt text-primary text-lg sm:text-xl"></i> @break
-                            @case(2) <i class="fas fa-heart text-primary text-lg sm:text-xl"></i> @break
-                            @case(3) <i class="fas fa-star text-primary text-lg sm:text-xl"></i> @break
-                            @default <i class="fas fa-check text-primary text-lg sm:text-xl"></i>
-                        @endswitch
-                    </div>
-                    <h3 class="font-semibold text-foreground text-sm sm:text-base">
-                        @switch($index)
-                            @case(0) {{ __('messages.innovation') }} @break
-                            @case(1) {{ __('messages.reliability') }} @break
-                            @case(2) {{ __('messages.life_saving') }} @break
-                            @case(3) {{ __('messages.excellence') }} @break
-                            @default {{ $value }}
-                        @endswitch
-                    </h3>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                @if($sections['about']->image)
+                <div class="flex-shrink-0 w-full max-w-xs mx-auto lg:mx-0">
+                    <img src="{{ Storage::url($sections['about']->image) }}" alt="{{ $sections['about']->title }}" class="rounded-2xl shadow-xl object-cover w-full h-64 lg:h-80">
                 </div>
-                @endforeach
+                @endif
+                <div>
+                    <p class="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
+                        {{ $sections['about']->content }}
+                    </p>
+                    @if(isset($sections['about']->data['values']))
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-12">
+                        @foreach($sections['about']->data['values'] as $index => $value)
+                        <div class="text-center group">
+                            <div class="bg-primary/10 dark:bg-primary/20 rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:bg-primary/20 dark:group-hover:bg-primary/30 transition-all duration-300 group-hover:scale-110 shadow-lg">
+                                @switch($index)
+                                    @case(0) <i class="fas fa-lightbulb text-primary text-lg sm:text-xl"></i> @break
+                                    @case(1) <i class="fas fa-shield-alt text-primary text-lg sm:text-xl"></i> @break
+                                    @case(2) <i class="fas fa-heart text-primary text-lg sm:text-xl"></i> @break
+                                    @case(3) <i class="fas fa-star text-primary text-lg sm:text-xl"></i> @break
+                                    @default <i class="fas fa-check text-primary text-lg sm:text-xl"></i>
+                                @endswitch
+                            </div>
+                            <h3 class="font-semibold text-foreground text-sm sm:text-base">
+                                @switch($index)
+                                    @case(0) {{ __('messages.innovation') }} @break
+                                    @case(1) {{ __('messages.reliability') }} @break
+                                    @case(2) {{ __('messages.life_saving') }} @break
+                                    @case(3) {{ __('messages.excellence') }} @break
+                                    @default {{ $value }}
+                                @endswitch
+                            </h3>
+                        </div>
+                        @endforeach
+                    </div>
+                    @endif
+                </div>
             </div>
-            @endif
         </div>
     </section>
     @else
@@ -539,9 +548,15 @@
                 @foreach($features as $index => $feature)
                 <div class="bg-card rounded-lg border border-border p-4 sm:p-6 hover:shadow-lg transition-all duration-300 group hover:-translate-y-1">
                     <div class="flex items-start mb-4">
-                        <div class="bg-primary/10 dark:bg-primary/20 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0 group-hover:bg-primary/20 dark:group-hover:bg-primary/30 transition-all duration-300">
-                            <i class="{{ $feature->icon }} text-primary text-lg sm:text-xl"></i>
-                        </div>
+                        @if($feature->image)
+                            <div class="rounded-full w-14 h-14 sm:w-20 sm:h-20 flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0 overflow-hidden bg-primary/10 dark:bg-primary/20 group-hover:bg-primary/20 dark:group-hover:bg-primary/30 transition-all duration-300">
+                                <img src="{{ Storage::url($feature->image) }}" alt="{{ $feature->title }}" class="object-cover w-full h-full">
+                            </div>
+                        @else
+                            <div class="bg-primary/10 dark:bg-primary/20 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0 group-hover:bg-primary/20 dark:group-hover:bg-primary/30 transition-all duration-300">
+                                <i class="{{ $feature->icon }} text-primary text-lg sm:text-xl"></i>
+                            </div>
+                        @endif
                         <div class="flex-1 min-w-0">
                             <h3 class="text-lg sm:text-xl font-semibold text-card-foreground mb-2 leading-tight">
                                 {{ $feature->title }}
