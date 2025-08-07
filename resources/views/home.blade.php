@@ -62,17 +62,17 @@
         /* Text Shadow Classes for Better Readability */
         .text-shadow-outline {
             text-shadow:
-                -1px -1px 0 rgba(255, 255, 255, 0.8),
-                1px -1px 0 rgba(255, 255, 255, 0.8),
-                -1px 1px 0 rgba(255, 255, 255, 0.8),
-                1px 1px 0 rgba(255, 255, 255, 0.8),
-                0 0 8px rgba(255, 255, 255, 0.6);
+                -1px -1px 0 rgba(0, 0, 0, 0.8),
+                1px -1px 0 rgba(0, 0, 0, 0.8),
+                -1px 1px 0 rgba(0, 0, 0, 0.8),
+                1px 1px 0 rgba(0, 0, 0, 0.8),
+                0 0 8px rgba(0, 0, 0, 0.6);
         }
 
         .text-shadow-soft {
             text-shadow:
-                0 1px 3px rgba(255, 255, 255, 0.8),
-                0 0 6px rgba(255, 255, 255, 0.4);
+                0 1px 3px rgba(0, 0, 0, 0.8),
+                0 0 6px rgba(0, 0, 0, 0.4);
         }
 
         /* Dark mode specific text shadows */
@@ -90,6 +90,33 @@
                 text-shadow:
                     0 2px 4px rgba(255, 255, 255, 0.9),
                     0 0 8px rgba(255, 255, 255, 0.6);
+            }
+        }
+
+        /* Dark Mode Button Styles */
+        @media (prefers-color-scheme: dark) {
+            .bg-primary-foreground {
+                background-color: var(--secondary-color) !important;
+            }
+
+            .text-primary {
+                color: white !important;
+            }
+
+            .border-primary-foreground {
+                border-color: var(--secondary-color) !important;
+            }
+
+            .text-primary-foreground {
+                color: white !important;
+            }
+
+            .hover\:bg-primary-foreground\/90:hover {
+                background-color: color-mix(in srgb, var(--secondary-color) 90%, transparent) !important;
+            }
+
+            .hover\:bg-primary-foreground\/10:hover {
+                background-color: color-mix(in srgb, var(--secondary-color) 10%, transparent) !important;
             }
         }
     </style>
