@@ -3,10 +3,10 @@
 return [
     // Navigation
     'home' => 'Accueil',
-    'about' => 'À Propos',
-    'services' => 'Services',
-    'testimonials' => 'Témoignages',
-    'contact' => 'Contact',
+    'about' => 'Nous connaître',
+    'services' => 'Nos offres',
+    'testimonials' => 'Actualités & événements',
+    'contact' => 'Alerte d\'urgence',
 
     // Hero Section
     'hero_title' => 'Solutions Numériques pour les Services d\'Urgence et de Secours',

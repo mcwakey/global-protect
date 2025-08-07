@@ -314,7 +314,7 @@
                         </div>
                     </div>
                 @endif
-                                   
+
 
                 <!-- Slide 2 - Emergency Response Focus -->
                 <div class="hero-slide flex-shrink-0 w-full bg-gradient-to-r from-red-600 via-red-500 to-orange-500 text-white relative">
@@ -955,50 +955,50 @@
 
                 <!-- Contact Info -->
                 <div class="space-y-8">
-                    @if(isset($sections['contact']) && isset($sections['contact']->data['phone']))
+                    @if($settings['contact_phone'])
                     <div class="flex items-start group">
                         <div class="bg-primary/10 rounded-full w-12 h-12 flex items-center justify-center mr-4 mt-1 group-hover:bg-primary/20 transition-colors">
                             <i class="fas fa-phone text-primary"></i>
                         </div>
                         <div>
                             <h3 class="font-semibold text-foreground mb-1">{{ __('messages.phone') }}</h3>
-                            <p class="text-muted-foreground">{{ $sections['contact']->data['phone'] }}</p>
+                            <p class="text-muted-foreground">{{ $settings['contact_phone'] }}</p>
                         </div>
                     </div>
                     @endif
 
-                    @if(isset($sections['contact']) && isset($sections['contact']->data['email']))
+                    @if($settings['contact_email'])
                     <div class="flex items-start group">
                         <div class="bg-primary/10 rounded-full w-12 h-12 flex items-center justify-center mr-4 mt-1 group-hover:bg-primary/20 transition-colors">
                             <i class="fas fa-envelope text-primary"></i>
                         </div>
                         <div>
                             <h3 class="font-semibold text-foreground mb-1">{{ __('messages.email') }}</h3>
-                            <p class="text-muted-foreground">{{ $sections['contact']->data['email'] }}</p>
+                            <p class="text-muted-foreground">{{ $settings['contact_email'] }}</p>
                         </div>
                     </div>
                     @endif
 
-                    @if(isset($sections['contact']) && isset($sections['contact']->data['address']))
+                    @if($settings['contact_address'])
                     <div class="flex items-start group">
                         <div class="bg-primary/10 rounded-full w-12 h-12 flex items-center justify-center mr-4 mt-1 group-hover:bg-primary/20 transition-colors">
                             <i class="fas fa-map-marker-alt text-primary"></i>
                         </div>
                         <div>
                             <h3 class="font-semibold text-foreground mb-1">{{ __('messages.address') }}</h3>
-                            <p class="text-muted-foreground">{{ $sections['contact']->data['address'] }}</p>
+                            <p class="text-muted-foreground">{{ $settings['contact_address'] }}</p>
                         </div>
                     </div>
                     @endif
 
-                    @if(isset($sections['contact']) && isset($sections['contact']->data['hours']))
+                    @if($settings['contact_hours'])
                     <div class="flex items-start group">
                         <div class="bg-primary/10 rounded-full w-12 h-12 flex items-center justify-center mr-4 mt-1 group-hover:bg-primary/20 transition-colors">
                             <i class="fas fa-clock text-primary"></i>
                         </div>
                         <div>
                             <h3 class="font-semibold text-foreground mb-1">{{ __('messages.hours') }}</h3>
-                            <p class="text-muted-foreground">{{ $sections['contact']->data['hours'] }}</p>
+                            <p class="text-muted-foreground">{{ $settings['contact_hours'] }}</p>
                         </div>
                     </div>
                     @endif
@@ -1012,7 +1012,7 @@
                             <div>
                                 <h3 class="font-semibold text-red-800 dark:text-red-200 mb-1">{{ __('messages.emergency_contact') }}</h3>
                                 <p class="text-red-700 dark:text-red-300 text-sm">{{ __('messages.emergency_contact_desc') }}</p>
-                                <p class="text-red-800 dark:text-red-200 font-bold mt-2">{{ __('messages.emergency_number') }}</p>
+                                <p class="text-red-800 dark:text-red-200 font-bold mt-2">{{ $settings['emergency_number'] }}</p>
                             </div>
                         </div>
                     </div>
@@ -1095,7 +1095,7 @@
                                 </div>
                                 <div>
                                     <p class="text-muted-foreground text-sm">{{ __('messages.head_office') }}</p>
-                                    <p class="text-foreground">{{ __('messages.office_address') }}</p>
+                                    <p class="text-foreground">{{ $settings['contact_address'] }}</p>
                                 </div>
                             </div>
                             <div class="flex items-start space-x-3 group">
@@ -1104,7 +1104,7 @@
                                 </div>
                                 <div>
                                     <p class="text-muted-foreground text-sm">{{ __('messages.email') }}</p>
-                                    <p class="text-foreground">{{ __('messages.company_email') }}</p>
+                                    <p class="text-foreground">{{ $settings['contact_email'] }}</p>
                                 </div>
                             </div>
                         </div>
@@ -1228,7 +1228,7 @@
         <div class="absolute bottom-16 right-0 bg-card border border-border rounded-lg p-3 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap pointer-events-none">
             <div class="text-center">
                 <p class="text-sm font-medium text-foreground">{{ __('messages.emergency_hotline') }}</p>
-                <p class="text-lg font-bold text-red-600">{{ __('messages.emergency_number') }}</p>
+                <p class="text-lg font-bold text-red-600">{{ $settings['emergency_hotline'] }}</p>
                 <p class="text-xs text-muted-foreground">{{ __('messages.available_24_7') }}</p>
             </div>
             <!-- Arrow -->

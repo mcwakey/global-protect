@@ -90,6 +90,27 @@ class SettingSeeder extends Seeder
                 'description' => 'Accent Color',
                 'is_public' => true,
             ],
+            [
+                'key' => 'contact_hours',
+                'value' => 'Monday - Friday: 8:00 AM - 6:00 PM',
+                'type' => 'text',
+                'description' => 'Contact Hours',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'company_name',
+                'value' => 'Globale Protect',
+                'type' => 'text',
+                'description' => 'Company Name',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'emergency_hotline',
+                'value' => '+1 (555) 123-4567',
+                'type' => 'text',
+                'description' => 'Emergency Hotline Number',
+                'is_public' => true,
+            ],
         ];
 
         foreach ($settings as $setting) {
