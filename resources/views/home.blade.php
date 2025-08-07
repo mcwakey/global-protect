@@ -62,34 +62,34 @@
         /* Text Shadow Classes for Better Readability */
         .text-shadow-outline {
             text-shadow:
-                -1px -1px 0 rgba(0, 0, 0, 0.8),
-                1px -1px 0 rgba(0, 0, 0, 0.8),
-                -1px 1px 0 rgba(0, 0, 0, 0.8),
-                1px 1px 0 rgba(0, 0, 0, 0.8),
-                0 0 8px rgba(0, 0, 0, 0.6);
+                -1px -1px 0 rgba(255, 255, 255, 0.8),
+                1px -1px 0 rgba(255, 255, 255, 0.8),
+                -1px 1px 0 rgba(255, 255, 255, 0.8),
+                1px 1px 0 rgba(255, 255, 255, 0.8),
+                0 0 8px rgba(255, 255, 255, 0.6);
         }
 
         .text-shadow-soft {
             text-shadow:
-                0 1px 3px rgba(0, 0, 0, 0.8),
-                0 0 6px rgba(0, 0, 0, 0.4);
+                0 1px 3px rgba(255, 255, 255, 0.8),
+                0 0 6px rgba(255, 255, 255, 0.4);
         }
 
         /* Dark mode specific text shadows */
         @media (prefers-color-scheme: dark) {
             .text-shadow-outline {
                 text-shadow:
-                    -1px -1px 0 rgba(0, 0, 0, 0.9),
-                    1px -1px 0 rgba(0, 0, 0, 0.9),
-                    -1px 1px 0 rgba(0, 0, 0, 0.9),
-                    1px 1px 0 rgba(0, 0, 0, 0.9),
-                    0 0 10px rgba(0, 0, 0, 0.8);
+                    -1px -1px 0 rgba(255, 255, 255, 0.9),
+                    1px -1px 0 rgba(255, 255, 255, 0.9),
+                    -1px 1px 0 rgba(255, 255, 255, 0.9),
+                    1px 1px 0 rgba(255, 255, 255, 0.9),
+                    0 0 10px rgba(255, 255, 255, 0.8);
             }
 
             .text-shadow-soft {
                 text-shadow:
-                    0 2px 4px rgba(0, 0, 0, 0.9),
-                    0 0 8px rgba(0, 0, 0, 0.6);
+                    0 2px 4px rgba(255, 255, 255, 0.9),
+                    0 0 8px rgba(255, 255, 255, 0.6);
             }
         }
     </style>
