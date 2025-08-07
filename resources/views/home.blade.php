@@ -58,6 +58,40 @@
 
         .bg-accent\/10 { background-color: color-mix(in srgb, var(--accent-color) 10%, transparent) !important; }
         .bg-accent\/20 { background-color: color-mix(in srgb, var(--accent-color) 20%, transparent) !important; }
+
+        /* Text Shadow Classes for Better Readability */
+        .text-shadow-outline {
+            text-shadow:
+                -1px -1px 0 rgba(0, 0, 0, 0.8),
+                1px -1px 0 rgba(0, 0, 0, 0.8),
+                -1px 1px 0 rgba(0, 0, 0, 0.8),
+                1px 1px 0 rgba(0, 0, 0, 0.8),
+                0 0 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .text-shadow-soft {
+            text-shadow:
+                0 1px 3px rgba(0, 0, 0, 0.8),
+                0 0 6px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Dark mode specific text shadows */
+        @media (prefers-color-scheme: dark) {
+            .text-shadow-outline {
+                text-shadow:
+                    -1px -1px 0 rgba(0, 0, 0, 0.9),
+                    1px -1px 0 rgba(0, 0, 0, 0.9),
+                    -1px 1px 0 rgba(0, 0, 0, 0.9),
+                    1px 1px 0 rgba(0, 0, 0, 0.9),
+                    0 0 10px rgba(0, 0, 0, 0.8);
+            }
+
+            .text-shadow-soft {
+                text-shadow:
+                    0 2px 4px rgba(0, 0, 0, 0.9),
+                    0 0 8px rgba(0, 0, 0, 0.6);
+            }
+        }
     </style>
 </head>
 <body class="bg-background text-foreground transition-colors duration-300">
@@ -242,16 +276,16 @@
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative z-10">
                             <div class="text-center lg:text-left">
                                 @if(!empty($slide['subtitle']))
-                                <div class="inline-block bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground px-3 py-1 rounded-full text-sm font-medium mb-4 border border-primary-foreground/20">
+                                <div class="inline-block bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground px-3 py-1 rounded-full text-sm font-medium mb-4 border border-primary-foreground/20 text-shadow-soft">
                                     {{ $slide['subtitle'] }}
                                 </div>
                                 @endif
 
-                                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight text-shadow-outline">
                                     {{ $slide['title'] ?: $sections['hero']->title }}
                                 </h1>
 
-                                <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed max-w-2xl">
+                                <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed max-w-2xl text-shadow-soft">
                                     {{ $slide['content'] ?: $sections['hero']->content }}
                                 </p>
 
@@ -294,10 +328,10 @@
                         <!-- Hero Content -->
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative z-10">
                             <div class="text-center lg:text-left">
-                                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight text-shadow-outline">
                                     {{ $sections['hero']->title }}
                                 </h1>
-                                <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed">
+                                <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed text-shadow-soft">
                                     {{ $sections['hero']->content }}
                                 </p>
                                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -342,10 +376,10 @@
                         <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                             <!-- Left Side - Text Content -->
                             <div class="text-center lg:text-left">
-                                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight text-shadow-outline">
                                     Emergency Response Excellence
                                 </h1>
-                                <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed">
+                                <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed text-shadow-soft">
                                     Advanced emergency management systems that reduce response times and coordinate rescue operations seamlessly.
                                 </p>
                                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -410,10 +444,10 @@
                         <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                             <!-- Left Side - Text Content -->
                             <div class="text-center lg:text-left">
-                                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight text-shadow-outline">
                                     Cutting-Edge Technology
                                 </h1>
-                                <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed">
+                                <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed text-shadow-soft">
                                     AI-powered dispatch systems, real-time communication platforms, and advanced analytics for optimal emergency management.
                                 </p>
                                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -518,10 +552,10 @@
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 <!-- Left Side - Text Content -->
                 <div class="text-center lg:text-left">
-                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight text-shadow-outline">
                         {{ __('messages.hero_title') }}
                     </h1>
-                    <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed">
+                    <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed text-shadow-soft">
                         {{ __('messages.hero_content') }}
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -1245,45 +1279,45 @@
                 <div class="w-20 h-20 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
                     <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 text-3xl"></i>
                 </div>
-                
+
                 <h3 class="text-2xl font-bold text-foreground mb-4">Emergency Contact</h3>
                 <p class="text-muted-foreground mb-8">Choose how you'd like to contact emergency services</p>
-                
+
                 <!-- Emergency Options -->
                 <div class="space-y-4">
                     <!-- Primary Emergency Call -->
-                    <a href="tel:{{ $settings['emergency_number'] ?? '911' }}" 
+                    <a href="tel:{{ $settings['emergency_number'] ?? '911' }}"
                        class="w-full bg-red-600 hover:bg-red-700 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 flex items-center justify-center group">
                         <i class="fas fa-phone mr-3 group-hover:animate-pulse"></i>
                         Call {{ $settings['emergency_number'] ?? '911' }}
                     </a>
-                    
+
                     <!-- Secondary Emergency Hotline -->
                     @if($settings['emergency_hotline'] && $settings['emergency_hotline'] != $settings['emergency_number'])
-                    <a href="tel:{{ $settings['emergency_hotline'] }}" 
+                    <a href="tel:{{ $settings['emergency_hotline'] }}"
                        class="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 hover:shadow-lg flex items-center justify-center">
                         <i class="fas fa-headset mr-3"></i>
                         Emergency Hotline: {{ $settings['emergency_hotline'] }}
                     </a>
                     @endif
-                    
+
                     <!-- SMS Option -->
-                    <a href="sms:{{ $settings['emergency_number'] ?? '911' }}" 
+                    <a href="sms:{{ $settings['emergency_number'] ?? '911' }}"
                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 hover:shadow-lg flex items-center justify-center">
                         <i class="fas fa-comment-medical mr-3"></i>
                         Send Emergency SMS
                     </a>
-                    
+
                     <!-- Location Services -->
-                    <button onclick="shareLocation()" 
+                    <button onclick="shareLocation()"
                             class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 hover:shadow-lg flex items-center justify-center">
                         <i class="fas fa-map-marker-alt mr-3"></i>
                         Share My Location
                     </button>
                 </div>
-                
+
                 <!-- Close Button -->
-                <button onclick="closeEmergencyModal()" 
+                <button onclick="closeEmergencyModal()"
                         class="mt-6 w-full bg-muted hover:bg-muted/80 text-muted-foreground py-2 px-4 rounded-lg transition-colors">
                     Cancel
                 </button>
@@ -1668,7 +1702,7 @@
         function handleEmergencyCall() {
             // Check if device supports tel: links (mobile devices)
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
+
             if (isMobile) {
                 // On mobile, show modal with options
                 showEmergencyModal();
@@ -1684,10 +1718,10 @@
                 modal.classList.remove('opacity-0', 'invisible');
                 modal.querySelector('.bg-card').classList.remove('scale-95');
                 modal.querySelector('.bg-card').classList.add('scale-100');
-                
+
                 // Prevent background scrolling
                 document.body.style.overflow = 'hidden';
-                
+
                 // Add escape key listener
                 document.addEventListener('keydown', handleEscapeKey);
             }
@@ -1699,10 +1733,10 @@
                 modal.classList.add('opacity-0', 'invisible');
                 modal.querySelector('.bg-card').classList.add('scale-95');
                 modal.querySelector('.bg-card').classList.remove('scale-100');
-                
+
                 // Restore background scrolling
                 document.body.style.overflow = '';
-                
+
                 // Remove escape key listener
                 document.removeEventListener('keydown', handleEscapeKey);
             }
@@ -1721,34 +1755,34 @@
                 const originalText = button.innerHTML;
                 button.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i>Getting location...';
                 button.disabled = true;
-                
+
                 navigator.geolocation.getCurrentPosition(
                     function(position) {
                         const lat = position.coords.latitude;
                         const lng = position.coords.longitude;
                         const accuracy = position.coords.accuracy;
-                        
+
                         // Create emergency message with location
                         const message = `EMERGENCY: I need help at coordinates ${lat}, ${lng} (accuracy: ${Math.round(accuracy)}m). Maps link: https://maps.google.com/?q=${lat},${lng}`;
-                        
+
                         // Open SMS with location
                         window.open(`sms:{{ $settings['emergency_number'] ?? '911' }}?body=${encodeURIComponent(message)}`);
-                        
+
                         // Also copy to clipboard
                         navigator.clipboard.writeText(message).then(() => {
                             alert('Location copied to clipboard and SMS opened!');
                         });
-                        
+
                         // Restore button
                         button.innerHTML = originalText;
                         button.disabled = false;
-                        
+
                         // Close modal after action
                         setTimeout(() => closeEmergencyModal(), 1000);
                     },
                     function(error) {
                         alert('Unable to get location: ' + error.message);
-                        
+
                         // Restore button
                         button.innerHTML = originalText;
                         button.disabled = false;
@@ -1768,7 +1802,7 @@
         document.addEventListener('click', function(event) {
             const modal = document.getElementById('emergency-modal');
             const modalContent = modal?.querySelector('.bg-card');
-            
+
             if (modal && !modal.classList.contains('invisible') && !modalContent?.contains(event.target)) {
                 closeEmergencyModal();
             }
@@ -1975,7 +2009,7 @@
                 margin: 1rem;
                 padding: 2rem;
             }
-            
+
             #emergency-button {
                 width: 60px;
                 height: 60px;
