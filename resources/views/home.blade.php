@@ -1221,18 +1221,73 @@
 
     <!-- Floating Emergency Button -->
     <div class="fixed bottom-6 right-6 z-40 group">
-        <button class="bg-red-600 hover:bg-red-700 text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center animate-pulse hover:animate-none hover:scale-110">
-            <i class="fas fa-phone text-xl transition-transform"></i>
+        <button id="emergency-button" class="bg-red-600 hover:bg-red-700 text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center animate-pulse hover:animate-none hover:scale-110 emergency-pulse" onclick="handleEmergencyCall()" title="Emergency Call - Click for help">
+            <i class="fas fa-phone text-xl transition-transform group-hover:rotate-12"></i>
         </button>
         <!-- Tooltip -->
         <div class="absolute bottom-16 right-0 bg-card border border-border rounded-lg p-3 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap pointer-events-none">
             <div class="text-center">
                 <p class="text-sm font-medium text-foreground">{{ __('messages.emergency_hotline') }}</p>
-                <p class="text-lg font-bold text-red-600">{{ $settings['emergency_hotline'] }}</p>
+                <p class="text-lg font-bold text-red-600">{{ $settings['emergency_hotline'] ?? $settings['emergency_number'] }}</p>
                 <p class="text-xs text-muted-foreground">{{ __('messages.available_24_7') }}</p>
+                <p class="text-xs text-muted-foreground mt-1">Click to call</p>
             </div>
             <!-- Arrow -->
             <div class="absolute bottom-0 right-4 transform translate-y-1/2 rotate-45 w-2 h-2 bg-card border-r border-b border-border"></div>
+        </div>
+    </div>
+
+    <!-- Emergency Modal -->
+    <div id="emergency-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 invisible transition-all duration-300">
+        <div class="bg-card border border-border rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl transform scale-95 transition-all duration-300">
+            <div class="text-center">
+                <!-- Emergency Icon -->
+                <div class="w-20 h-20 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+                    <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 text-3xl"></i>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-foreground mb-4">Emergency Contact</h3>
+                <p class="text-muted-foreground mb-8">Choose how you'd like to contact emergency services</p>
+                
+                <!-- Emergency Options -->
+                <div class="space-y-4">
+                    <!-- Primary Emergency Call -->
+                    <a href="tel:{{ $settings['emergency_number'] ?? '911' }}" 
+                       class="w-full bg-red-600 hover:bg-red-700 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 flex items-center justify-center group">
+                        <i class="fas fa-phone mr-3 group-hover:animate-pulse"></i>
+                        Call {{ $settings['emergency_number'] ?? '911' }}
+                    </a>
+                    
+                    <!-- Secondary Emergency Hotline -->
+                    @if($settings['emergency_hotline'] && $settings['emergency_hotline'] != $settings['emergency_number'])
+                    <a href="tel:{{ $settings['emergency_hotline'] }}" 
+                       class="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 hover:shadow-lg flex items-center justify-center">
+                        <i class="fas fa-headset mr-3"></i>
+                        Emergency Hotline: {{ $settings['emergency_hotline'] }}
+                    </a>
+                    @endif
+                    
+                    <!-- SMS Option -->
+                    <a href="sms:{{ $settings['emergency_number'] ?? '911' }}" 
+                       class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 hover:shadow-lg flex items-center justify-center">
+                        <i class="fas fa-comment-medical mr-3"></i>
+                        Send Emergency SMS
+                    </a>
+                    
+                    <!-- Location Services -->
+                    <button onclick="shareLocation()" 
+                            class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 hover:shadow-lg flex items-center justify-center">
+                        <i class="fas fa-map-marker-alt mr-3"></i>
+                        Share My Location
+                    </button>
+                </div>
+                
+                <!-- Close Button -->
+                <button onclick="closeEmergencyModal()" 
+                        class="mt-6 w-full bg-muted hover:bg-muted/80 text-muted-foreground py-2 px-4 rounded-lg transition-colors">
+                    Cancel
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1608,6 +1663,123 @@
                 this.style.animationDuration = '';
             });
         });
+
+        // Emergency Button Functionality
+        function handleEmergencyCall() {
+            // Check if device supports tel: links (mobile devices)
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // On mobile, show modal with options
+                showEmergencyModal();
+            } else {
+                // On desktop, show modal with options
+                showEmergencyModal();
+            }
+        }
+
+        function showEmergencyModal() {
+            const modal = document.getElementById('emergency-modal');
+            if (modal) {
+                modal.classList.remove('opacity-0', 'invisible');
+                modal.querySelector('.bg-card').classList.remove('scale-95');
+                modal.querySelector('.bg-card').classList.add('scale-100');
+                
+                // Prevent background scrolling
+                document.body.style.overflow = 'hidden';
+                
+                // Add escape key listener
+                document.addEventListener('keydown', handleEscapeKey);
+            }
+        }
+
+        function closeEmergencyModal() {
+            const modal = document.getElementById('emergency-modal');
+            if (modal) {
+                modal.classList.add('opacity-0', 'invisible');
+                modal.querySelector('.bg-card').classList.add('scale-95');
+                modal.querySelector('.bg-card').classList.remove('scale-100');
+                
+                // Restore background scrolling
+                document.body.style.overflow = '';
+                
+                // Remove escape key listener
+                document.removeEventListener('keydown', handleEscapeKey);
+            }
+        }
+
+        function handleEscapeKey(event) {
+            if (event.key === 'Escape') {
+                closeEmergencyModal();
+            }
+        }
+
+        function shareLocation() {
+            if (navigator.geolocation) {
+                // Add loading state
+                const button = event.target;
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i>Getting location...';
+                button.disabled = true;
+                
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const accuracy = position.coords.accuracy;
+                        
+                        // Create emergency message with location
+                        const message = `EMERGENCY: I need help at coordinates ${lat}, ${lng} (accuracy: ${Math.round(accuracy)}m). Maps link: https://maps.google.com/?q=${lat},${lng}`;
+                        
+                        // Open SMS with location
+                        window.open(`sms:{{ $settings['emergency_number'] ?? '911' }}?body=${encodeURIComponent(message)}`);
+                        
+                        // Also copy to clipboard
+                        navigator.clipboard.writeText(message).then(() => {
+                            alert('Location copied to clipboard and SMS opened!');
+                        });
+                        
+                        // Restore button
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                        
+                        // Close modal after action
+                        setTimeout(() => closeEmergencyModal(), 1000);
+                    },
+                    function(error) {
+                        alert('Unable to get location: ' + error.message);
+                        
+                        // Restore button
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 60000
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('emergency-modal');
+            const modalContent = modal?.querySelector('.bg-card');
+            
+            if (modal && !modal.classList.contains('invisible') && !modalContent?.contains(event.target)) {
+                closeEmergencyModal();
+            }
+        });
+
+        // Add vibration for emergency button (mobile devices)
+        document.getElementById('emergency-button')?.addEventListener('click', function() {
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200]); // Vibration pattern
+            }
+        });
     </script>
 
     <!-- Additional CSS for animations -->
@@ -1717,6 +1889,98 @@
             #hero-prev, #hero-next {
                 width: 40px;
                 height: 40px;
+            }
+        }
+
+        /* Emergency Modal Styles */
+        #emergency-modal.show {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        #emergency-modal .bg-card {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        #emergency-modal.show .bg-card {
+            transform: scale(1) !important;
+        }
+
+        /* Emergency button enhanced styles */
+        #emergency-button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #emergency-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        #emergency-button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Pulse animation for emergency elements */
+        .emergency-pulse {
+            animation: emergency-pulse 2s infinite;
+        }
+
+        @keyframes emergency-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        /* Loading spinner */
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Modal backdrop blur effect */
+        #emergency-modal {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        /* Button hover effects for emergency modal */
+        #emergency-modal button:hover,
+        #emergency-modal a:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Mobile specific styles */
+        @media (max-width: 768px) {
+            #emergency-modal .bg-card {
+                margin: 1rem;
+                padding: 2rem;
+            }
+            
+            #emergency-button {
+                width: 60px;
+                height: 60px;
+                bottom: 20px;
+                right: 20px;
             }
         }
     </style>
